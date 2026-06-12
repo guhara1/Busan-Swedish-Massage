@@ -26,6 +26,8 @@
 
 `content/` 아래 HTML 조각으로 저장. 경로가 URL이 된다.
 (`content/regions/jung.html` → `/regions/jung/`)
+빌드(`content/loader.py`)가 h2 단위 `<section>` 래핑, 첫 단락 lead 처리,
+FAQ 변환, 요금 블록(지역·역 페이지)과 CTA 추가를 자동으로 수행한다.
 
 ```html
 <!--META
@@ -50,8 +52,9 @@
 - H2 3~6개: 생활권/특징 → 방문 가능 안내 → 추천 상황·코스 연결 →
   예약 전 확인사항 → 자주 묻는 질문.
 - FAQ는 `<h2>자주 묻는 질문</h2>` + `<dl class="faq"><dt>Q…</dt><dd>A…</dd></dl>`.
+  (빌드 시 `.faq-item` 디자인으로 자동 변환된다)
 - 카드 목록은 `<ul class="card-grid"><li><a href="…">중구</a></li>…</ul>`.
-- 예약문의 CTA는 템플릿이 자동 추가하므로 본문에 따로 넣지 않는다.
+- 예약문의 CTA·코스별 요금 블록은 빌드가 자동 추가하므로 본문에 넣지 않는다.
 
 ## URL 슬러그 표준
 
