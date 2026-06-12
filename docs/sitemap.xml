@@ -5,7 +5,48 @@
   <url><loc>https://example.com/courses/</loc></url>
   <url><loc>https://example.com/guide/</loc></url>
   <url><loc>https://example.com/</loc></url>
+  <url><loc>https://example.com/regions/buk/</loc></url>
+  <url><loc>https://example.com/regions/busanjin/</loc></url>
+  <url><loc>https://example.com/regions/dong/</loc></url>
+  <url><loc>https://example.com/regions/dongnae/</loc></url>
+  <url><loc>https://example.com/regions/gangseo/</loc></url>
+  <url><loc>https://example.com/regions/geumjeong/</loc></url>
+  <url><loc>https://example.com/regions/gijang/</loc></url>
+  <url><loc>https://example.com/regions/haeundae/u-dong/</loc></url>
+  <url><loc>https://example.com/regions/haeundae/</loc></url>
   <url><loc>https://example.com/regions/</loc></url>
+  <url><loc>https://example.com/regions/jung/</loc></url>
+  <url><loc>https://example.com/regions/nam/</loc></url>
+  <url><loc>https://example.com/regions/saha/</loc></url>
+  <url><loc>https://example.com/regions/sasang/</loc></url>
+  <url><loc>https://example.com/regions/seo/</loc></url>
+  <url><loc>https://example.com/regions/suyeong/gwangan/</loc></url>
+  <url><loc>https://example.com/regions/suyeong/</loc></url>
+  <url><loc>https://example.com/regions/yeongdo/</loc></url>
+  <url><loc>https://example.com/regions/yeonje/</loc></url>
+  <url><loc>https://example.com/stations/bgl/</loc></url>
+  <url><loc>https://example.com/stations/busan-station/</loc></url>
+  <url><loc>https://example.com/stations/donghae/</loc></url>
+  <url><loc>https://example.com/stations/haeundae/</loc></url>
   <url><loc>https://example.com/stations/</loc></url>
+  <url><loc>https://example.com/stations/line1/</loc></url>
+  <url><loc>https://example.com/stations/line2/</loc></url>
+  <url><loc>https://example.com/stations/line3/</loc></url>
+  <url><loc>https://example.com/stations/line4/</loc></url>
+  <url><loc>https://example.com/stations/seomyeon/</loc></url>
+  <url><loc>https://example.com/themes/allnight/</loc></url>
+  <url><loc>https://example.com/themes/aroma/</loc></url>
+  <url><loc>https://example.com/themes/chinese/</loc></url>
+  <url><loc>https://example.com/themes/couple/</loc></url>
+  <url><loc>https://example.com/themes/foot/</loc></url>
+  <url><loc>https://example.com/themes/homecare/</loc></url>
+  <url><loc>https://example.com/themes/hotel/</loc></url>
   <url><loc>https://example.com/themes/</loc></url>
+  <url><loc>https://example.com/themes/lomilomi/</loc></url>
+  <url><loc>https://example.com/themes/skincare/</loc></url>
+  <url><loc>https://example.com/themes/sleep/</loc></url>
+  <url><loc>https://example.com/themes/sports/</loc></url>
+  <url><loc>https://example.com/themes/swedish/</loc></url>
+  <url><loc>https://example.com/themes/thai/</loc></url>
+  <url><loc>https://example.com/themes/waxing/</loc></url>
 </urlset>
