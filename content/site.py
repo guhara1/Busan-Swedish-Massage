@@ -1,10 +1,15 @@
 # 사이트 공통 설정
 # 배포 도메인 확정 후 BASE_URL 을 실제 도메인으로 변경하세요.
-BASE_URL = "https://www.ganda-go.example.com"
+BASE_URL = "https://busan-swedish-massage.pages.dev"
 
 BRAND = "간다 GO"
 PHONE = "0508-202-4719"
 PHONE_DISPLAY = "0508-202-4719"
+
+# IndexNow 인증 키 — 빌드 시 루트에 <키>.txt 파일이 생성되고,
+# indexnow_ping.py 가 빙·네이버 등 IndexNow 참여 엔진에 색인을 통보할 때 사용한다.
+# (키는 공개되어도 무방한 값이다 — 프로토콜 설계상 키 파일이 곧 소유 증명)
+INDEXNOW_KEY = "5f5572fb1efd4e8e8e8c70f590d7fa52"
 
 # 상단 메뉴 — 하위 메뉴에는 키워드를 반복하지 않고 지역명·역명만 표시한다.
 NAV = [

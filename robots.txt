@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.ganda-go.example.com/sitemap.xml
+User-agent: Yeti
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+Sitemap: https://busan-swedish-massage.pages.dev/sitemap.xml

@@ -12,14 +12,18 @@ import html
 import os
 import re
 import sys
+from datetime import date, datetime, timezone, timedelta
+from xml.sax.saxutils import escape
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from content import PAGES
-from content.site import (BASE_URL, BRAND, NAV, PHONE, PHONE_DISPLAY)
+from content.site import (BASE_URL, BRAND, INDEXNOW_KEY, NAV, PHONE, PHONE_DISPLAY)
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 MIN_INDEX_CHARS = 2000
+KST = timezone(timedelta(hours=9))
+TODAY = date.today().isoformat()
 
 
 def text_length(body_html: str) -> int:
@@ -153,6 +157,7 @@ def render_page(page: dict) -> str:
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{BASE_URL.rstrip('/')}/assets/og-image.png">
+<link rel="alternate" type="application/rss+xml" title="{BRAND} 매거진 RSS" href="{BASE_URL.rstrip('/')}/rss.xml">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -301,9 +306,10 @@ def build() -> None:
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as f:
         f.write(NOT_FOUND)
 
-    # sitemap.xml
+    # sitemap.xml (lastmod 포함 — 빌드 날짜 기준)
     urls = "\n".join(
-        f"  <url><loc>{u}</loc></url>" for u in sitemap_urls
+        f"  <url><loc>{u}</loc><lastmod>{TODAY}</lastmod></url>"
+        for u in sitemap_urls
     )
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(
@@ -312,12 +318,54 @@ def build() -> None:
             f"{urls}\n</urlset>\n"
         )
 
-    # robots.txt
+    # rss.xml — 매거진 아티클 피드 (네이버 서치어드바이저 RSS 제출용)
+    items = []
+    for page in PAGES:
+        path = page["path"]
+        if not path.startswith("magazine/") or path == "magazine/":
+            continue
+        m = re.search(r'"datePublished":\s*"(\d{4}-\d{2}-\d{2})"', page.get("extra_head", ""))
+        pub = datetime.fromisoformat(m.group(1)).replace(hour=9, tzinfo=KST) if m \
+            else datetime.now(KST)
+        link = BASE_URL.rstrip("/") + "/" + path
+        items.append((pub, (
+            "  <item>\n"
+            f"    <title>{escape(page['h1'])}</title>\n"
+            f"    <link>{link}</link>\n"
+            f"    <guid isPermaLink=\"true\">{link}</guid>\n"
+            f"    <description>{escape(page['desc'])}</description>\n"
+            f"    <pubDate>{pub.strftime('%a, %d %b %Y %H:%M:%S %z')}</pubDate>\n"
+            "  </item>"
+        )))
+    items.sort(key=lambda x: x[0], reverse=True)
+    now_rfc = datetime.now(KST).strftime("%a, %d %b %Y %H:%M:%S %z")
+    with open(os.path.join(ROOT, "rss.xml"), "w", encoding="utf-8") as f:
+        f.write(
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+            "<channel>\n"
+            f"  <title>{escape(BRAND)} 매거진</title>\n"
+            f"  <link>{BASE_URL.rstrip('/')}/magazine/</link>\n"
+            "  <description>부산 방문 관리 이용 가이드와 휴식·컨디션 관리 정보</description>\n"
+            "  <language>ko</language>\n"
+            f"  <lastBuildDate>{now_rfc}</lastBuildDate>\n"
+            f'  <atom:link href="{BASE_URL.rstrip("/")}/rss.xml" rel="self" type="application/rss+xml"/>\n'
+            + "\n".join(it for _, it in items)
+            + "\n</channel>\n</rss>\n"
+        )
+
+    # robots.txt — 네이버(Yeti)·구글(Googlebot) 명시 허용 + sitemap
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(
             "User-agent: *\nAllow: /\n\n"
+            "User-agent: Yeti\nAllow: /\n\n"
+            "User-agent: Googlebot\nAllow: /\n\n"
             f"Sitemap: {BASE_URL.rstrip('/')}/sitemap.xml\n"
         )
+
+    # IndexNow 키 파일 (소유 증명 — 키 이름의 txt 파일에 키 값)
+    with open(os.path.join(ROOT, f"{INDEXNOW_KEY}.txt"), "w", encoding="utf-8") as f:
+        f.write(INDEXNOW_KEY)
 
     # .nojekyll (GitHub Pages)
     open(os.path.join(ROOT, ".nojekyll"), "w").close()

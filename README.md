@@ -43,8 +43,26 @@ python3 build.py
 
 자세한 작성 규칙과 슬러그 표준은 [CONTENT_GUIDE.md](CONTENT_GUIDE.md) 참고.
 
-## 배포 전 해야 할 일
+## 배포·색인 (도메인: busan-swedish-massage.pages.dev)
 
-1. `content/site.py`의 `BASE_URL`을 실제 도메인으로 변경
-2. `python3 build.py` 재실행 (canonical·sitemap·robots.txt에 반영됨)
-3. Google Search Console에 `sitemap.xml` 제출
+`BASE_URL`은 `content/site.py`에 설정되어 있고, 빌드 시 canonical·sitemap.xml·
+rss.xml·robots.txt·IndexNow 키 파일에 자동 반영된다.
+
+### 색인 자동화 (이미 구성됨)
+
+- **sitemap.xml** — 인덱스 189페이지 + `lastmod`(빌드 날짜)
+- **rss.xml** — 매거진 아티클 피드 (네이버 서치어드바이저 RSS 제출용)
+- **robots.txt** — 전체 허용 + Yeti(네이버)·Googlebot 명시 + Sitemap 위치
+- **IndexNow** — 키 파일(`<키>.txt`) 배포 + `indexnow_ping.py`
+  - 글 올린 뒤: `python3 indexnow_ping.py /magazine/new-post/` (빙·네이버 즉시 통보)
+  - 전체 재통보: `python3 indexnow_ping.py --all`
+  - GitHub Actions(`.github/workflows/indexnow.yml`)가 main 푸시 시 자동 실행
+- **구글** — IndexNow 미참여. `google_indexing.py`(Indexing API, 정책 제한 주의)
+  포함. sitemap ping 엔드포인트는 2024년 폐기되어 사용하지 않는다.
+
+### 최초 1회 수동 등록 (가장 효과 큼)
+
+1. **구글 서치콘솔**: 속성 등록 → `sitemap.xml` 제출 → 메인 URL 검사 → 색인 요청
+2. **네이버 서치어드바이저**: 사이트 등록(인증 태그 이미 삽입됨) →
+   요청 &gt; 사이트맵 제출(`sitemap.xml`) + RSS 제출(`rss.xml`) →
+   웹 페이지 수집 요청으로 메인·허브 URL 수동 수집
