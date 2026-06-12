@@ -6,4 +6,6 @@
   <url><loc>https://example.com/guide/</loc></url>
   <url><loc>https://example.com/</loc></url>
   <url><loc>https://example.com/regions/</loc></url>
+  <url><loc>https://example.com/stations/</loc></url>
+  <url><loc>https://example.com/themes/</loc></url>
 </urlset>
